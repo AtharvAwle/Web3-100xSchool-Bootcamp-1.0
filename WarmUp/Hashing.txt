@@ -1,0 +1,12 @@
+Hashing is a process which transforms any imput data to a fixed size string of characters
+
+    100xdevs------>HASHING FUNCTION--------->55711980d50fd24989409a7a7d4e15fcd206556eec1245c94a6e60910dc4e41d
+
+
+IMPORTANT PROPERTIES OF HASH FUNCTIONS
+
+1--> Deterministic (Same input will always give same output)
+2--> Fast Computational
+3--> Pre-image resistance (u cannot reverse engineer a output to fint the input)
+4--> Small change in input creats large change in the output
+5--> Collision resistance 
