@@ -1,0 +1,352 @@
+1. Hierarchical Deterministic (HD) Wallets
+
+Hierarchical Deterministic (HD) wallets are wallets that generate a tree of cryptographic key pairs from a single master seed. This allows users to manage multiple accounts and addresses without storing multiple independent private keys.
+
+Problem
+
+Without HD wallets, users must:
+
+Store many public–private key pairs
+
+Back up each wallet separately
+
+Risk permanent loss if a key is lost
+
+Solution: BIP-32
+
+BIP-32 (Bitcoin Improvement Proposal 32) introduced a hierarchical, deterministic structure for wallets.
+
+Key ideas:
+
+One master seed generates all keys
+
+Keys are derived in a tree-like structure
+
+Wallets can always be recovered using the same seed
+
+Makes wallet recovery simple and standardized
+
+2. Ethereum and Its Innovation
+Bitcoin’s Limitation
+
+Bitcoin was designed for one primary use case:
+
+A decentralized digital currency (store of value)
+
+Bitcoin does not support programmable applications, such as:
+
+Stablecoins
+
+Custom tokens
+
+Lending and borrowing
+
+Decentralized exchanges
+
+Between 2011–2014, many single-use blockchains appeared, each solving only one problem.
+
+Ethereum’s Breakthrough
+
+Ethereum introduced a general-purpose programmable blockchain, described in the Ethereum whitepaper (2014).
+
+Ethereum allows developers to build any application logic on-chain, not just currency transfers.
+
+3. Smart Contracts
+
+Smart contracts are executable programs stored on the blockchain.
+
+Core properties:
+
+Written in Solidity
+
+Executed on the Ethereum Virtual Machine (EVM)
+
+Run on-chain by validators
+
+Immutable after deployment
+
+Ethereum stores ETH balances, but smart contracts enable hundreds of additional use cases such as DeFi, NFTs, DAOs, and exchanges.
+
+4. Mnemonics, Seeds, and Private Keys
+Mnemonic Phrases (BIP-39)
+
+A mnemonic phrase is a human-readable list of words used to generate cryptographic keys.
+
+Key points:
+
+Defined by BIP-39
+
+Usually 12 or 24 words
+
+Easy to write down and back up
+
+Chosen from a fixed word list
+
+The mnemonic itself is not a private key.
+
+Seed
+
+The seed is a 512-bit (64-byte) binary value derived from the mnemonic.
+
+Important distinctions:
+
+Users back up the mnemonic
+
+Wallets internally use the seed
+
+All private/public keys are derived from the seed
+
+Same mnemonic → same seed → same keys
+
+Mnemonic = human-friendly
+Seed = cryptographic root
+
+5. Derivation Paths
+
+Derivation paths define how keys are derived from the master seed.
+
+Why They Matter
+
+Enable wallet portability across apps
+
+Ensure consistent key generation
+
+Allow recovery across different wallets
+
+Standard Format
+m / purpose' / coin_type' / account' / change / address_index
+
+
+Meaning:
+
+m → master node
+
+purpose → wallet standard (e.g., BIP-44)
+
+coin_type → blockchain identifier
+
+Bitcoin: 0'
+
+Ethereum: 60'
+
+Solana: 501'
+
+account → logical account number
+
+change → external (0) or internal (1)
+
+address_index → generates multiple addresses
+
+Same seed + same path = same keys every time.
+
+6. What Is a DApp
+
+A DApp (Decentralized Application) is an application that runs on a blockchain backend instead of centralized servers.
+
+DApps on Solana
+
+Solana DApps consist of:
+
+On-chain programs (smart contracts, usually written in Rust)
+
+Frontend (web/mobile UI)
+
+The blockchain handles:
+
+State
+
+Rules
+
+Transactions
+
+Why Solana Is Different
+
+Solana is designed for:
+
+High throughput
+
+Low fees
+
+Fast confirmation
+
+It combines:
+
+Proof of Stake
+
+Proof of History (cryptographic time ordering)
+
+This allows thousands of transactions per second at very low cost.
+
+7. How to Create a DApp
+
+To build a DApp, you typically need:
+
+Smart contract / Program
+
+Written in Rust (Solana)
+
+Defines on-chain logic
+
+Client SDK
+
+Usually written in TypeScript
+
+Abstracts contract interactions
+
+Frontend
+
+Built using React / Next.js
+
+Allows users to interact with the program
+
+Between the frontend and blockchain, two key components exist:
+
+Wallet extensions
+
+RPC servers
+
+8. Wallet Extensions
+
+Wallet extensions are browser add-ons that:
+
+Store private keys
+
+Sign transactions
+
+Connect users to DApps
+
+Examples include Phantom, MetaMask, and Backpack.
+
+Why Extensions, Not Websites
+
+Websites cannot securely store private keys because:
+
+Keys would leave the user’s device
+
+Servers could be hacked or malicious
+
+Extensions solve this by:
+
+Keeping keys locally
+
+Signing transactions on the user’s device
+
+Sending only signed transactions to the network
+
+They also inject standardized APIs (e.g., window.solana) so DApps can request wallet actions.
+
+Trust Model of Wallets
+
+Wallet extensions can technically access private keys.
+
+Incidents like the Slope Wallet hack (2022) show that:
+
+Wallet software must be trusted
+
+Malicious or compromised wallets can leak keys
+
+Why People Still Use Wallets
+
+Wallets are required because:
+
+DApps cannot sign transactions on their own
+
+Users must explicitly approve actions
+
+Wallets act as the authorization layer between users and blockchains
+
+Without wallets, secure browser-based Web3 usage is impossible.
+
+9. Hardware Wallets (Ledger)
+
+A hardware wallet is a physical device that stores:
+
+Seed phrases
+
+Private keys
+
+Key points:
+
+Private keys never enter browser wallets
+
+Signing happens on the device
+
+Improves security against malware
+
+However:
+
+You must trust the hardware manufacturer
+
+No solution is completely trustless
+
+10. Multisigs
+
+Multisig (multi-signature) wallets require multiple approvals to execute transactions.
+
+How Multisigs Work
+
+Define N signers
+
+Require M signatures (e.g., 2-of-3)
+
+Transactions execute only after threshold is met
+
+Why Multisigs Are Used
+
+Prevent single-key compromise
+
+Enable team and DAO control
+
+Add governance and checks
+
+Secure treasuries
+
+Multisigs on Solana
+
+Implemented using on-chain programs that:
+
+Hold authority
+
+Track proposals
+
+Collect approvals
+
+Execute transactions
+
+11. RPCs (Remote Procedure Calls)
+
+RPCs are the gateways through which wallets and DApps communicate with the blockchain.
+
+What RPC Means
+
+RPC = Remote Procedure Call
+
+It allows applications to:
+
+Fetch blockchain data
+
+Submit transactions
+
+Simulate execution
+
+Without running a full node, apps rely on RPC servers.
+
+Solana RPC Servers
+
+A Solana RPC server is a node that exposes APIs such as:
+
+getBalance
+
+getAccountInfo
+
+getProgramAccounts
+
+sendTransaction
+
+simulateTransaction
+
+getLatestBlockhash
+
+Wallets, frontends, and backends constantly interact with these endpoints.
+
+RPCs are essentially Solana’s API layer.
